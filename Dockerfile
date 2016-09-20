@@ -1,8 +1,10 @@
-FROM conyac/base:latest
+FROM conyac/base:slim
 
-ENV NODE_VERSION v4.2.1
-#RUN apt-get update -y && apt-get upgrade -y
-RUN wget -O /tmp/node.tar.gz https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION.tar.gz
-RUN cd /tmp/ && tar -zxf node.tar.gz
-RUN cd /tmp/node-v*/ && ./configure && make && make install
-RUN rm -fr /tmp/node.tar.gz /tmp/node-v*
+#ARG NODE_VERSION=6.6.0
+ARG NODE_VERSION=4.5.0
+ENV NODE_VERSION=${NODE_VERSION}
+
+ADD build.sh /tmp/node_base_build.sh
+RUN bash -x  /tmp/node_base_build.sh
+
+
